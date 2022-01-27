@@ -7,7 +7,7 @@ from drf_yasg import openapi
 
 # BASIC url-----------------------------------------
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', admin.site.urls),
 ]
 
 schema_view = get_schema_view(

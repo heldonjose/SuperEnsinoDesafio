@@ -3,38 +3,25 @@
 ## COnfigurações
 
 ```
-$ git clone git@github.com:heldonjose/challenge-ByCodersTec.git
-$ cd challenge-ByCodersTec
+$ git clone git@github.com:heldonjose/SuperEnsinoDesafio.git
+$ cd SuperEnsinoDesafio
 ```
 
-Crie  a virtualenv, ative e instale as dependências:
+Crie  a venv, ative e instale as dependências:
 
 ```
-$ virtualenv env
-$ source env/bin/activate
-(env) $pip install -r requirements.txt  // Note que a env está ativada no inicio da linha
+$ virtualenv venv -p python3.8  #Pode utilizar qualquer outra versão acima da 8
+$ source venv/bin/activate
+(venv) $pip install -r requeriments.txt  // Observe que a venv está ativada no inicio da linha
 
 ```
 
-Coloque as configuração do banco de dados post no arquivo settings na pasta projeto :
-Lembre de colocar o nome do banco, usuário e password;
-Caso queria utilizar o sqlite3, somente remover essas linhas do arquivo
-```
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'challenge_byCoders',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '5432', }
-}
-```
-Na raiz do projeto, execute:
+
+Projeto utilizando o sqlite3,
+
 Na raiz do projeto, execute:
 
 ```
-(env)$ python manage.py createsuperuser
 (env)$ python manage.py migrate
 (env)$ python manage.py createsuperuser
 
