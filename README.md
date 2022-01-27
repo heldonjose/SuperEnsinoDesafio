@@ -31,7 +31,25 @@ POr fim, execute o projeto:
 ```
 (env)$ python manage.py runserver
 ```
-Navegue para `http://127.0.0.1:8000`.
-Faça login com o usuário e senha criado.
+Navegue para `http://127.0.0.1:8000/admin/`.
+Faça login com o usuário e senha criado, você irá ser redirecionado para a tela de admin do django.
 
-Para acessar o admin do django, acesse: `http://127.0.0.1:8000/admin`.
+Acesse a área academica e crie um novo exame
+```
+http://127.0.0.1:8000/academic/exam/ #Lista de Exames
+http://127.0.0.1:8000/academic/exam/add/  #criar um novo exame
+
+Crie um exame com a situação em rascunho.
+Um exame só poderá ser retornar no endpoint se o mesmo estiver ativo.
+Para ativar um exame:
+     - Pelo menos 1 questão deverá ser criada;
+     - Cada questão deverá ter pelo menos 1 opção;
+     - Cada questão deverá ter pelo menos 1 opção marcada como correta 
+```
+ 
+Para acessar a aŕes da documentação dos endpoint, acesse:
+
+```
+http://127.0.0.1:8000/swagger/
+NO parametro de versão, colocar sempre o v1
+```

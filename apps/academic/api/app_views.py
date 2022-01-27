@@ -32,6 +32,10 @@ class AcademicModuleMinx:
 
 
 class ExamAPIListView_V1(AcademicModuleMinx, generics.ListAPIView):
+    '''
+       Retorna a lista de todos os exames com paginação.
+       - *has_answers*: Informa se o exame contém uma responsta do usuário logado
+    '''
     serializer_class = app_serializers.AcademicSerializer_V1
     filter_backends = (filters.DjangoFilterBackend, OrderingFilter, SearchFilter)
     ordering = ('id',)
@@ -44,6 +48,13 @@ class ExamAPIDetailView_V1(AcademicModuleMinx, generics.RetrieveAPIView):
     queryset = Exam.objects.all()
 
     def get(self, request, *args, **kwargs):
+        '''
+             Retorna o detalhe de um exame ativo - Ao acessar esse endpoint, é criar o answer do usuario logado, com os valores default e o status Aberto
+             - *has_answers*: Informa se o exame contém uma responsta do usuário logado
+             - *has_option_answer*: Em cada questão, se o usuário já tenha respondido a questão, é informado qual opção o usuário escolhei e se está certo ou errado.
+             - *answer*: Informa se o exame contém uma responsta do usuário logado e os valores correspondente ao andamento do exame
+
+        '''
         object = self.get_object()
         self.validate_status_exam(object)
         # Ao acessar um exame ativo, é criado uma resposta para esse exame.
@@ -67,9 +78,20 @@ class ExamQuestionAPIDetailView_V1(AcademicModuleMinx, generics.RetrieveAPIView,
             return app_serializers.AnswerExamQuestionPostSerializer_V1
 
     def get(self, request, *args, **kwargs):
+        '''
+                   Retorna o detalhe de uma questão
+                   - *has_option_answer*: Em cada questão, se o usuário já tenha respondido a questão, é informado qual opção o usuário escolhei e se está certo ou errado.
+        '''
         object = self.get_object()
         self.validate_status_exam(object.exam)
         return self.retrieve(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        '''
+                Requisição post para enviar qual a opção escolhida da questão
+                - *pk_option_question*: Opção da questão
+        '''
+        return self.create(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         exame = get_object_or_404(Exam, pk=kwargs.get('pk_exame'))
@@ -87,6 +109,10 @@ class ExamQuestionAPIDetailView_V1(AcademicModuleMinx, generics.RetrieveAPIView,
         return Response(serializer.data, status=status.HTTP_201_CREATED, )
 
     def put(self, request, *args, **kwargs):
+        '''
+             Esse método é utilizado para finalizar o exame do usuário, o status do answerExame do usuário logado é Finalizado
+             - *has_option_answer*: Em cada questão, se o usuário já tenha respondido a questão, é informado qual opção o usuário escolhei e se está certo ou errado.
+        '''
         exame = get_object_or_404(Exam, pk=kwargs.get('pk_exame'))
         answer = exame.answer.filter(user=request.user).first()
         answer.status = choices.FINISHED
