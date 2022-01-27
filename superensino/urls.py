@@ -4,11 +4,6 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-# BASIC url-----------------------------------------
-urlpatterns = [
-    path('admin/', admin.site.urls),
-]
-
 schema_view = get_schema_view(
     openapi.Info(
         title="Sistemas de questões",
@@ -23,10 +18,15 @@ schema_view = get_schema_view(
 )
 
 # url Swagger-----------------------------------------------
-urlpatterns += [
+urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
 # urls includes API DRF---------------------------------------
 urlpatterns += [
     path('api/academic/', include('apps.academic.api.urls')),
+]
+
+# BASIC url-----------------------------------------
+urlpatterns += [
+    path('', admin.site.urls),
 ]
